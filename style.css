@@ -839,22 +839,177 @@ body:has(button:hover) .cursor-ring {
 }
 
 /* ═══════════════════════════════════════
-   RESPONSIVE
+   MOBILE NAV HAMBURGER
+═══════════════════════════════════════ */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+  z-index: 1100;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s, background 0.2s;
+}
+
+/* X state when open */
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan); }
+
+/* Mobile nav drawer */
+.nav-mobile-drawer {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(8,8,16,0.97);
+  backdrop-filter: blur(16px);
+  z-index: 1050;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.nav-mobile-drawer.open { display: flex; }
+
+.nav-mobile-drawer a {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.nav-mobile-drawer a:hover { color: var(--cyan); }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — 1024px (Tablet landscape / small laptop)
 ═══════════════════════════════════════ */
 @media (max-width: 1024px) {
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .about-visual { text-align: center; }
+  .stats-grid    { grid-template-columns: repeat(2, 1fr); }
+  .about-grid    { grid-template-columns: 1fr; gap: 3rem; }
+  .about-visual  { text-align: center; }
+  .section-inner { padding: 0 2.5rem; }
 }
 
+/* ═══════════════════════════════════════
+   RESPONSIVE — 768px (Tablet portrait)
+═══════════════════════════════════════ */
 @media (max-width: 768px) {
+  /* Prevent any element from forcing the page wider than the screen */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+
+  /* Nav */
   .nav { padding: 1rem 1.5rem; }
   .nav-links { display: none; }
-  .section-inner { padding: 0 1.5rem; }
-  .projects-grid { grid-template-columns: 1fr; }
-  .hero-cta { flex-direction: column; align-items: center; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-hamburger { display: flex; }
+
+  /* Sections */
+  .section { padding: 5rem 0; }
+  .section-inner { padding: 0 1.4rem; }
+  .section-title { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+
+  /* Hero */
+  .hero-name { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+  .hero-tag  { font-size: 0.78rem; }
+  .hero-cta  { flex-direction: column; align-items: center; gap: 0.9rem; }
+  .btn       { font-size: 0.8rem; padding: 0.7rem 1.5rem; width: 100%; max-width: 260px; text-align: center; }
+
+  /* About */
+  .about-grid    { grid-template-columns: 1fr; gap: 2rem; }
+  .about-visual  { text-align: center; }
+  .ascii-art     { font-size: 0.6rem; line-height: 1.3; overflow-x: auto; display: block; max-width: 100%; }
+  .about-bio     { font-size: 0.95rem; }
+  .stats-grid    { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+  .stat-number   { font-size: 1.8rem; }
+
+  /* Skills graph — make it scrollable horizontally so nodes aren't cut off */
+  .skills-graph-container {
+    height: 420px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #skillsGraph { min-width: 500px; }
+
+  /* Projects */
+  .projects-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+
+  /* Research */
   .research-card { padding: 1.4rem 1.5rem; }
-  .skills-graph-container { height: 400px; }
+  .research-title { font-size: 1rem; }
+
+  /* Contact */
+  .contact-email {
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+    padding: 1.2rem;
+    width: 100%;
+    max-width: 340px;
+  }
+  .email-text { font-size: 0.85rem; word-break: break-all; }
+  .btn-copy   { width: 100%; }
+  .social-links { gap: 0.9rem; }
 }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — 480px (Large phones)
+═══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .section-inner { padding: 0 1rem; }
+  .section { padding: 4rem 0; }
+
+  /* Hero */
+  .hero-name    { font-size: clamp(1.9rem, 9vw, 2.8rem); }
+  .hero-subtitle { font-size: 0.95rem; }
+  .scroll-indicator { display: none; } /* too cramped on tiny screens */
+
+  /* About */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+  .stat-card  { padding: 0.9rem 0.6rem; }
+  .stat-number { font-size: 1.5rem; }
+  .stat-label  { font-size: 0.65rem; }
+
+  /* Skills */
+  .skills-graph-container { height: 360px; }
+  .section-sub { font-size: 0.78rem; }
+
+  /* Projects */
+  .project-card-inner { padding: 1.3rem; }
+  .project-name { font-size: 0.98rem; }
+  .project-desc { font-size: 0.83rem; }
+
+  /* Research */
+  .research-meta { flex-wrap: wrap; gap: 0.5rem; }
+  .research-card { padding: 1.2rem 1rem; }
+  .research-abstract { font-size: 0.85rem; }
+
+  /* Contact */
+  .contact-email { max-width: 100%; }
+  .email-text { font-size: 0.78rem; }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — 360px (Small Android phones)
+═══════════════════════════════════════ */
+@media (max-width: 360px) {
+  .hero-name { font-size: 1.75rem; }
+  .hero-tag  { font-size: 0.72rem; padding: 0.25rem 0.7rem; }
+  .nav { padding: 0.8rem 1rem; }
+  .nav-logo { font-size: 1.2rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .ascii-art { font-size: 0.52rem; }
+}
+

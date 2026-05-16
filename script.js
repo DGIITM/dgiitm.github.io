@@ -35,6 +35,42 @@
   }, { passive: true });
 })();
 
+/* ─── MOBILE NAV HAMBURGER ─── */
+(function () {
+  const btn    = document.getElementById('navHamburger');
+  const drawer = document.getElementById('navDrawer');
+  if (!btn || !drawer) return;
+
+  function openDrawer() {
+    btn.classList.add('open');
+    drawer.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden'; /* prevent background scroll */
+  }
+
+  function closeDrawer() {
+    btn.classList.remove('open');
+    drawer.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', () => {
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+
+  /* Close when any link clicked */
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeDrawer);
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+})();
+
+
 /* ─── NAV SCROLL STYLE (passive, cheap) ─── */
 (function () {
   const nav = document.getElementById('nav');
